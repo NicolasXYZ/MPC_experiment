@@ -1,5 +1,5 @@
-title: [Building exchanges for economic contracts - definitions and prototypes]
-description: [An illustrated notebook of "Auctions without auctioneers"]
+title: [Monetary anchoring and inflation - through dynamic multiagent multiperiod computational modelling]
+description: [Proposal for a strategy-proof mechanism design at the next Bretton Woods]
 
 plugins:
   - jekyll-relative-links
@@ -18,3 +18,4 @@ include:
   - PULL_REQUEST_TEMPLATE.md
 
 theme: jekyll-theme-cayman
+google_analytics: UA-175064932-3 

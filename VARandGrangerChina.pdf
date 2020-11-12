@@ -1,0 +1,2376 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/nicolaszhang/Downloads/Stata Rec 6/VARandGrangerChina.smcl
+  log type:  smcl
+ opened on:  12 Nov 2020, 18:19:04
+
+. clear
+
+. 
+.  
+.  import excel "/Users/nicolaszhang/Downloads/InflationvReservesForStatawGDP.x
+> lsx", sheet("InflationvReservesForStata") firstrow
+(13 vars, 479 obs)
+
+. 
+. 
+.  gen monthly_date = mofd(date )
+(2 missing values generated)
+
+. 
+. 
+.   format monthly_date %tm
+
+. 
+.   tset monthly_date
+        time variable:  monthly_date, 1980m9 to 2020m5
+                delta:  1 month
+
+. 
+. 
+.   constraint  1  [ChangeInInflationExpectationMIC]L.ChinaReserveChangeInPerce
+> nt  = 0
+
+. 
+.   constraint 2 [ChangeInInflationExpectationMIC]L2.ChinaReserveChangeInPercen
+> t  = 0
+
+. 
+.  constraint 3 [ChangesInEffectiveFedFundRates]L.ChinaReserveChangeInPercent  
+> = 0
+
+. 
+.  constraint 4 [ChangesInEffectiveFedFundRates]L2.ChinaReserveChangeInPercent 
+>  = 0
+
+. 
+.  
+.   constraint 5 [ChangeInInflationExpectationMIC]L.ChangeInInflationExpectatio
+> nMIC = 0
+
+. 
+.  
+.   constraint 6  [ChangeInInflationExpectationMIC]L2.ChangeInInflationExpectat
+> ionMIC = 0
+
+. 
+.  
+.  var InflationMOMLessFoodEnergy  ChangesInEffectiveFedFundRates  ChinaReserve
+> ChangeInPercent     ChangeInInflationExpectationMIC MonthOnMUSgdpChange      
+> if inrange(monthly_date, tm(2012m1), tm(2015m10)), lutstats  dfk constraints(
+> 1 2 3 4 5 6 )
+Estimating VAR coefficients
+
+Iteration 1:   tolerance =   .3559116
+Iteration 2:   tolerance =   .2643746
+Iteration 3:   tolerance =   .1763705
+Iteration 4:   tolerance =    .104928
+Iteration 5:   tolerance =  .05714996
+Iteration 6:   tolerance =  .02642176
+Iteration 7:   tolerance =  .01257543
+Iteration 8:   tolerance =  .00606579
+Iteration 9:   tolerance =  .00294447
+Iteration 10:   tolerance =  .00143369
+Iteration 11:   tolerance =  .00069911
+Iteration 12:   tolerance =  .00034116
+Iteration 13:   tolerance =  .00016654
+Iteration 14:   tolerance =  .00008131
+Iteration 15:   tolerance =   .0000397
+Iteration 16:   tolerance =  .00001939
+Iteration 17:   tolerance =  9.467e-06
+Iteration 18:   tolerance =  4.623e-06
+Iteration 19:   tolerance =  2.258e-06
+Iteration 20:   tolerance =  1.102e-06
+Iteration 21:   tolerance =  5.383e-07
+
+
+Vector autoregression
+
+Sample:  2012m1 - 2015m10                       Number of obs     =         46
+Log likelihood =  -104.6684          (lutstats) AIC               =  -13.99806
+FPE            =   8.25e-07                     HQIC              =  -13.25347
+Det(Sigma_ml)  =   9.48e-08                     SBIC              =   -12.0104
+
+Equation           Parms      RMSE     R-sq      chi2     P>chi2
+----------------------------------------------------------------
+InflationMOMLe~y     11     .619859   0.3155   20.08928   0.0284
+ChangesInEffec~s      9      .01368   0.0268   6.661015   0.5736
+ChinaReserveCh~t     11      1.1919   0.1629   11.07032   0.3521
+ChangeInInflat~C      7     10.9681   0.1193   4.901716   0.5565
+MonthOnMUSgdpC~e     11     .091425   0.9857   2493.401   0.0000
+----------------------------------------------------------------
+
+ ( 1)  [ChangeInInflationExpectationMIC]L.ChinaReserveChangeInPercent = 0
+ ( 2)  [ChangeInInflationExpectationMIC]L2.ChinaReserveChangeInPercent = 0
+ ( 3)  [ChangesInEffectiveFedFundRates]L.ChinaReserveChangeInPercent = 0
+ ( 4)  [ChangesInEffectiveFedFundRates]L2.ChinaReserveChangeInPercent = 0
+ ( 5)  [ChangeInInflationExpectationMIC]L.ChangeInInflationExpectationMIC = 0
+ ( 6)  [ChangeInInflationExpectationMIC]L2.ChangeInInflationExpectationMIC = 0
+-------------------------------------------------------------------------------
+> ------------------
+                                |      Coef.   Std. Err.      z    P>|z|     [9
+> 5% Con                                                                       
+>       f. Interval]
+--------------------------------+----------------------------------------------
+> ------------------
+InflationMOMLessFoodEnergy      |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.3048048   .1489846    -2.05   0.041    -.5
+> 968093                                                                       
+>          -.0128003
+                            L2. |   -.347645   .1551513    -2.24   0.025     -.
+> 651736                                                                       
+>           -.043554
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .1136613    8.08407     0.01   0.989    -15
+> .73082                                                                       
+>           15.95815
+                            L2. |  -6.216003   8.098275    -0.77   0.443    -22
+> .08833                                                                       
+>           9.656326
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -.2081972   .0833669    -2.50   0.013    -.3
+> 715934                                                                       
+>           -.044801
+                            L2. |   .1168357   .0824604     1.42   0.157    -.0
+> 447836                                                                       
+>           .2784551
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0206347   .0115756     1.78   0.075    -.0
+> 020532                                                                       
+>           .0433225
+                            L2. |   .0221239   .0113768     1.94   0.052    -.0
+> 001742                                                                       
+>            .044422
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |   .4822235   .4433262     1.09   0.277    -.3
+> 866799                                                                       
+>           1.351127
+                            L2. |  -.5404148   .4486203    -1.20   0.228    -1.
+> 419695                                                                       
+>           .3388649
+                                |
+                          _cons |    .052977   .1130423     0.47   0.639    -.1
+> 685819                                                                       
+>           .2745358
+--------------------------------+----------------------------------------------
+> ------------------
+ChangesInEffectiveFedFundRates  |
+     InflationMOMLessFoodEnergy |
+                            L1. |   .0008224   .0031465     0.26   0.794    -.0
+> 053447                                                                       
+>           .0069895
+                            L2. |   .0004942   .0033299     0.15   0.882    -.0
+> 060323                                                                       
+>           .0070207
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -.0627651     .17805    -0.35   0.724    -.4
+> 117367                                                                       
+>           .2862066
+                            L2. |   .0958888   .1765756     0.54   0.587     -.
+> 250193                                                                       
+>           .4419706
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   1.55e-19   2.06e-19     0.75   0.453    -2.
+> 49e-19                                                                       
+>           5.59e-19
+                            L2. |   3.80e-19   8.01e-19     0.47   0.635    -1.
+> 19e-18                                                                       
+>           1.95e-18
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |  -.0004158   .0002431    -1.71   0.087    -.0
+> 008923                                                                       
+>           .0000608
+                            L2. |  -.0001468   .0002384    -0.62   0.538     -.
+> 000614                                                                       
+>           .0003204
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |  -.0030842   .0093823    -0.33   0.742    -.0
+> 214732                                                                       
+>           .0153048
+                            L2. |   .0075373   .0094365     0.80   0.424    -.0
+> 109579                                                                       
+>           .0260324
+                                |
+                          _cons |  -.0001138    .002402    -0.05   0.962    -.0
+> 048217                                                                       
+>           .0045942
+--------------------------------+----------------------------------------------
+> ------------------
+ChinaReserveChangeInPercent     |
+     InflationMOMLessFoodEnergy |
+                            L1. |   -.073071   .2866884    -0.25   0.799    -.6
+> 349699                                                                       
+>           .4888279
+                            L2. |  -.0430362   .2986024    -0.14   0.885    -.6
+> 282861                                                                       
+>           .5422136
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -8.384895   15.55185    -0.54   0.590    -38
+> .86597                                                                       
+>           22.09618
+                            L2. |  -11.79543   15.57906    -0.76   0.449    -42
+> .32983                                                                       
+>           18.73896
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   .1383991   .1617112     0.86   0.392     -.
+> 178549                                                                       
+>           .4553471
+                            L2. |   .1302325   .1599526     0.81   0.416    -.1
+> 832689                                                                       
+>           .4437338
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0361736   .0224699     1.61   0.107    -.0
+> 078666                                                                       
+>           .0802137
+                            L2. |   .0091685   .0220838     0.42   0.678     -.
+> 034115                                                                       
+>           .0524519
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |   .8076224   .8530604     0.95   0.344    -.8
+> 643453                                                                       
+>            2.47959
+                            L2. |  -.9273023   .8633383    -1.07   0.283    -2.
+> 619414                                                                       
+>           .7648096
+                                |
+                          _cons |   .2754132   .2175044     1.27   0.205    -.1
+> 508876                                                                       
+>           .7017139
+--------------------------------+----------------------------------------------
+> ------------------
+ChangeInInflationExpectationMIC |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -2.603339   2.522567    -1.03   0.302    -7.
+> 547479                                                                       
+>           2.340801
+                            L2. |   4.278667   2.606719     1.64   0.101     -.
+> 830409                                                                       
+>           9.387742
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -1.351787   139.4366    -0.01   0.992    -27
+> 4.6425                                                                       
+>           271.9389
+                            L2. |   119.4687   139.6209     0.86   0.392    -15
+> 4.1833                                                                       
+>           393.1206
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -1.80e-16   1.59e-16    -1.13   0.258    -4.
+> 91e-16                                                                       
+>           1.31e-16
+                            L2. |  -1.89e-16   6.47e-17    -2.92   0.003    -3.
+> 16e-16                                                                       
+>          -6.22e-17
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |  -3.26e-19   1.15e-17    -0.03   0.977    -2.
+> 29e-17                                                                       
+>           2.23e-17
+                            L2. |  -4.64e-17   2.31e-17    -2.01   0.044    -9.
+> 17e-17                                                                       
+>          -1.23e-18
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |   1.288145   7.519557     0.17   0.864    -13
+> .44992                                                                       
+>           16.02621
+                            L2. |  -1.678087   7.560085    -0.22   0.824    -16
+> .49558                                                                       
+>           13.13941
+                                |
+                          _cons |   .0650951    1.92537     0.03   0.973    -3.
+> 708561                                                                       
+>           3.838751
+--------------------------------+----------------------------------------------
+> ------------------
+MonthOnMUSgdpChange             |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.0205863   .0220535    -0.93   0.351    -.0
+> 638103                                                                       
+>           .0226378
+                            L2. |  -.0282268     .02298    -1.23   0.219    -.0
+> 732669                                                                       
+>           .0168132
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -.5990161   1.194888    -0.50   0.616    -2.
+> 940954                                                                       
+>           1.742922
+                            L2. |  -.6893044    1.19703    -0.58   0.565    -3.
+> 035441                                                                       
+>           1.656832
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -.0077223   .0128115    -0.60   0.547    -.0
+> 328324                                                                       
+>           .0173878
+                            L2. |   -.002699   .0126722    -0.21   0.831    -.0
+> 275361                                                                       
+>           .0221381
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |  -.0001331   .0017789    -0.07   0.940    -.0
+> 036197                                                                       
+>           .0033534
+                            L2. |  -5.59e-06   .0017483    -0.00   0.997    -.0
+> 034323                                                                       
+>           .0034211
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |   1.830256   .0656145    27.89   0.000     1.
+> 701654                                                                       
+>           1.958858
+                            L2. |  -.9366964   .0664315   -14.10   0.000      -
+> 1.0669                                                                       
+>           -.806493
+                                |
+                          _cons |   .0185741   .0167254     1.11   0.267     -.
+> 014207                                                                       
+>           .0513552
+-------------------------------------------------------------------------------
+> ------------------
+
+. 
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |   .9050803 +  .3198781i  |   .959944   |
+  |   .9050803 -  .3198781i  |   .959944   |
+  |  -.1334782 +  .6706707i  |   .683824   |
+  |  -.1334782 -  .6706707i  |   .683824   |
+  |   .4804679               |   .480468   |
+  |  -.3602866 +  .1525869i  |   .391266   |
+  |  -.3602866 -  .1525869i  |   .391266   |
+  |   .3207703 +  .2153177i  |   .386336   |
+  |   .3207703 -  .2153177i  |   .386336   |
+  |   -.343554               |   .343554   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. varlmar
+
+   Lagrange-multiplier test
+  +--------------------------------------+
+  | lag  |      chi2    df   Prob > chi2 |
+  |------+-------------------------------|
+  |   1  |  -1.2e+02    25     1.00000   |
+  |   2  |  -1.6e+02    25     1.00000   |
+  +--------------------------------------+
+   H0: no autocorrelation at lag order
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  | InflationMOMLes~y  ChangesInEffect~s |  .59158     2    0.744    |
+  | InflationMOMLes~y  ChinaReserveCha~t |  7.0591     2    0.029    |
+  | InflationMOMLes~y  ChangeInInflati~C |  4.2433     2    0.120    |
+  | InflationMOMLes~y  MonthOnMUSgdpCh~e |  1.4887     2    0.475    |
+  | InflationMOMLes~y                ALL |  11.755     8    0.162    |
+  |--------------------------------------+---------------------------|
+  | ChangesInEffect~s  InflationMOMLes~y |  .07907     2    0.961    |
+  | ChangesInEffect~s  ChinaReserveCha~t |       .     0        .    |
+  | ChangesInEffect~s  ChangeInInflati~C |  3.3174     2    0.190    |
+  | ChangesInEffect~s  MonthOnMUSgdpCh~e |  2.4452     2    0.294    |
+  | ChangesInEffect~s                ALL |  5.9962     6    0.424    |
+  |--------------------------------------+---------------------------|
+  | ChinaReserveCha~t  InflationMOMLes~y |  .07288     2    0.964    |
+  | ChinaReserveCha~t  ChangesInEffect~s |  .82799     2    0.661    |
+  | ChinaReserveCha~t  ChangeInInflati~C |    3.29     2    0.193    |
+  | ChinaReserveCha~t  MonthOnMUSgdpCh~e |  1.2156     2    0.545    |
+  | ChinaReserveCha~t                ALL |  6.8631     8    0.551    |
+  |--------------------------------------+---------------------------|
+  | ChangeInInflati~C  InflationMOMLes~y |  4.5077     2    0.105    |
+  | ChangeInInflati~C  ChangesInEffect~s |  .73263     2    0.693    |
+  | ChangeInInflati~C  ChinaReserveCha~t |       .     0        .    |
+  | ChangeInInflati~C  MonthOnMUSgdpCh~e |  .06433     2    0.968    |
+  | ChangeInInflati~C                ALL |  4.9017     6    0.556    |
+  |--------------------------------------+---------------------------|
+  | MonthOnMUSgdpCh~e  InflationMOMLes~y |   1.959     2    0.375    |
+  | MonthOnMUSgdpCh~e  ChangesInEffect~s |  .55638     2    0.757    |
+  | MonthOnMUSgdpCh~e  ChinaReserveCha~t |  .48517     2    0.785    |
+  | MonthOnMUSgdpCh~e  ChangeInInflati~C |  .00921     2    0.995    |
+  | MonthOnMUSgdpCh~e                ALL |  2.4185     8    0.965    |
+  +------------------------------------------------------------------+
+
+.  predict e, resid
+(5 missing values generated)
+
+. 
+. 
+.  gen Le=e[_n-1]
+(5 missing values generated)
+
+. 
+.  regress e Le  if inrange(monthly_date, tm(2012m1), tm(2015m10))
+
+      Source |       SS           df       MS      Number of obs   =        46
+-------------+----------------------------------   F(1, 44)        =      0.51
+       Model |   .20140761         1   .20140761   Prob > F        =    0.4801
+    Residual |  17.4729356        44  .397112172   R-squared       =    0.0114
+-------------+----------------------------------   Adj R-squared   =   -0.0111
+       Total |  17.6743432        45  .392763182   Root MSE        =    .63017
+
+------------------------------------------------------------------------------
+           e |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          Le |  -.1068222   .1499962    -0.71   0.480    -.4091197    .1954752
+       _cons |   .0003958   .0929149     0.00   0.997    -.1868619    .1876535
+------------------------------------------------------------------------------
+
+. 
+. swilk e  if inrange(monthly_date, tm(2012m1), tm(2015m10))
+
+                   Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob>z
+-------------+------------------------------------------------------
+           e |         46    0.97462      1.118     0.236    0.40653
+
+. sfrancia e  if inrange(monthly_date, tm(2012m1), tm(2015m10))
+
+                  Shapiro-Francia W' test for normal data
+
+    Variable |       Obs       W'          V'        z       Prob>z
+-------------+-----------------------------------------------------
+           e |        46    0.98146      0.905    -0.188    0.57451
+
+. var InflationMOMLessFoodEnergy  ChangesInEffectiveFedFundRates  ChinaReserveC
+> hangeInPercent     ChangeInInflationExpectationMIC MonthOnMUSgdpChange      i
+> f inrange(monthly_date, tm(2002m1), tm(2011m10)), lutstats  dfk constraints(1
+>  2 3 4 5 6 )
+Estimating VAR coefficients
+
+Iteration 1:   tolerance =  .03577572
+Iteration 2:   tolerance =  .02185142
+Iteration 3:   tolerance =  .01491705
+Iteration 4:   tolerance =  .01026129
+Iteration 5:   tolerance =  .00709181
+Iteration 6:   tolerance =  .00491703
+Iteration 7:   tolerance =  .00341668
+Iteration 8:   tolerance =  .00237776
+Iteration 9:   tolerance =  .00165649
+Iteration 10:   tolerance =  .00115486
+Iteration 11:   tolerance =  .00080554
+Iteration 12:   tolerance =  .00056209
+Iteration 13:   tolerance =  .00039231
+Iteration 14:   tolerance =  .00027386
+Iteration 15:   tolerance =  .00019119
+Iteration 16:   tolerance =  .00013349
+Iteration 17:   tolerance =  .00009321
+Iteration 18:   tolerance =  .00006509
+Iteration 19:   tolerance =  .00004545
+Iteration 20:   tolerance =  .00003174
+Iteration 21:   tolerance =  .00002216
+Iteration 22:   tolerance =  .00001548
+Iteration 23:   tolerance =  .00001081
+Iteration 24:   tolerance =  7.548e-06
+Iteration 25:   tolerance =  5.271e-06
+Iteration 26:   tolerance =  3.681e-06
+Iteration 27:   tolerance =  2.571e-06
+Iteration 28:   tolerance =  1.795e-06
+Iteration 29:   tolerance =  1.254e-06
+Iteration 30:   tolerance =  8.755e-07
+
+
+Vector autoregression
+
+Sample:  2002m1 - 2011m10                       Number of obs     =        118
+Log likelihood =  -801.0257          (lutstats) AIC               =  -11.77322
+FPE            =   7.59e-06                     HQIC              =  -11.29653
+Det(Sigma_ml)  =   3.30e-06                     SBIC              =   -10.5992
+
+Equation           Parms      RMSE     R-sq      chi2     P>chi2
+----------------------------------------------------------------
+InflationMOMLe~y     11     1.05514   0.2390   46.87674   0.0000
+ChangesInEffec~s      9     .125467   0.5015   109.0224   0.0000
+ChinaReserveCh~t     11     1.47574   0.1188   15.46062   0.1161
+ChangeInInflat~C      7     35.7753   0.0616   7.097471   0.3119
+MonthOnMUSgdpC~e     11     .116328   0.9948   20697.71   0.0000
+----------------------------------------------------------------
+
+ ( 1)  [ChangeInInflationExpectationMIC]L.ChinaReserveChangeInPercent = 0
+ ( 2)  [ChangeInInflationExpectationMIC]L2.ChinaReserveChangeInPercent = 0
+ ( 3)  [ChangesInEffectiveFedFundRates]L.ChinaReserveChangeInPercent = 0
+ ( 4)  [ChangesInEffectiveFedFundRates]L2.ChinaReserveChangeInPercent = 0
+ ( 5)  [ChangeInInflationExpectationMIC]L.ChangeInInflationExpectationMIC = 0
+ ( 6)  [ChangeInInflationExpectationMIC]L2.ChangeInInflationExpectationMIC = 0
+-------------------------------------------------------------------------------
+> ------------------
+                                |      Coef.   Std. Err.      z    P>|z|     [9
+> 5% Con                                                                       
+>       f. Interval]
+--------------------------------+----------------------------------------------
+> ------------------
+InflationMOMLessFoodEnergy      |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.5434028    .098069    -5.54   0.000    -.7
+> 356145                                                                       
+>           -.351191
+                            L2. |  -.1996055   .0990351    -2.02   0.044    -.3
+> 937108                                                                       
+>          -.0055002
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .2650514   .8110495     0.33   0.744    -1.
+> 324576                                                                       
+>           1.854679
+                            L2. |   .3591071    .789844     0.45   0.649    -1.
+> 188959                                                                       
+>           1.907173
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -.0796074   .0644936    -1.23   0.217    -.2
+> 060126                                                                       
+>           .0467978
+                            L2. |  -.0174417   .0678429    -0.26   0.797    -.1
+> 504114                                                                       
+>            .115528
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0052615   .0022161     2.37   0.018     .0
+> 009181                                                                       
+>           .0096049
+                            L2. |   .0053815   .0021581     2.49   0.013     .0
+> 011517                                                                       
+>           .0096113
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |  -.0189692   .2731481    -0.07   0.945    -.5
+> 543295                                                                       
+>           .5163912
+                            L2. |   .0423564   .2713384     0.16   0.876     -.
+> 489457                                                                       
+>           .5741699
+                                |
+                          _cons |   .2235787   .2181926     1.02   0.306    -.2
+> 040709                                                                       
+>           .6512284
+--------------------------------+----------------------------------------------
+> ------------------
+ChangesInEffectiveFedFundRates  |
+     InflationMOMLessFoodEnergy |
+                            L1. |   .0087701   .0115796     0.76   0.449    -.0
+> 139255                                                                       
+>           .0314656
+                            L2. |   .0099851   .0116593     0.86   0.392    -.0
+> 128667                                                                       
+>           .0328369
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .5483652   .0963841     5.69   0.000     .3
+> 594558                                                                       
+>           .7372746
+                            L2. |   .0547286   .0938443     0.58   0.560    -.1
+> 292028                                                                       
+>             .23866
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -2.43e-19   9.01e-19    -0.27   0.787    -2.
+> 01e-18                                                                       
+>           1.52e-18
+                            L2. |   5.85e-20   5.23e-20     1.12   0.263    -4.
+> 39e-20                                                                       
+>           1.61e-19
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   -.000073   .0002725    -0.27   0.789     -.
+> 000607                                                                       
+>           .0004611
+                            L2. |   .0001595   .0002669     0.60   0.550    -.0
+> 003636                                                                       
+>           .0006826
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |   .0849279   .0324439     2.62   0.009     .0
+> 213391                                                                       
+>           .1485167
+                            L2. |  -.0705112   .0322145    -2.19   0.029    -.1
+> 336504                                                                       
+>          -.0073719
+                                |
+                          _cons |  -.0062324   .0122097    -0.51   0.610     -.
+> 030163                                                                       
+>           .0176983
+--------------------------------+----------------------------------------------
+> ------------------
+ChinaReserveChangeInPercent     |
+     InflationMOMLessFoodEnergy |
+                            L1. |   .1045905   .1373657     0.76   0.446    -.1
+> 646413                                                                       
+>           .3738223
+                            L2. |   .1132313   .1389895     0.81   0.415    -.1
+> 591831                                                                       
+>           .3856456
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .3538817   1.134537     0.31   0.755    -1.
+> 869771                                                                       
+>           2.577534
+                            L2. |  -1.083891   1.105105    -0.98   0.327    -3.
+> 249857                                                                       
+>           1.082074
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   .2132266   .0952464     2.24   0.025     .0
+> 265471                                                                       
+>           .3999061
+                            L2. |   .0932434   .1001928     0.93   0.352    -.1
+> 031309                                                                       
+>           .2896176
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |  -.0018004   .0032233    -0.56   0.576    -.0
+> 081178                                                                       
+>           .0045171
+                            L2. |   .0011352   .0031384     0.36   0.718    -.0
+> 050158                                                                       
+>           .0072863
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |   .4704271   .3822608     1.23   0.218    -.2
+> 787902                                                                       
+>           1.219644
+                            L2. |  -.3107745   .3797103    -0.82   0.413    -1.
+> 054993                                                                       
+>            .433444
+                                |
+                          _cons |   1.599828   .3185342     5.02   0.000     .9
+> 755126                                                                       
+>           2.224144
+--------------------------------+----------------------------------------------
+> ------------------
+ChangeInInflationExpectationMIC |
+     InflationMOMLessFoodEnergy |
+                            L1. |   3.693253   3.274213     1.13   0.259    -2.
+> 724087                                                                       
+>           10.11059
+                            L2. |   -2.50027   3.229449    -0.77   0.439    -8.
+> 829873                                                                       
+>           3.829333
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |    3.69684   27.45166     0.13   0.893    -50
+> .10742                                                                       
+>            57.5011
+                            L2. |   33.11859   26.66891     1.24   0.214    -19
+> .15151                                                                       
+>           85.38868
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   1.47e-17   3.89e-17     0.38   0.706    -6.
+> 15e-17                                                                       
+>           9.09e-17
+                            L2. |  -3.01e-16   1.82e-16    -1.65   0.098    -6.
+> 57e-16                                                                       
+>           5.55e-17
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   1.50e-16   1.74e-17     8.58   0.000     1.
+> 16e-16                                                                       
+>           1.84e-16
+                            L2. |   3.60e-17   8.61e-18     4.19   0.000     1.
+> 92e-17                                                                       
+>           5.29e-17
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |  -7.163726   9.198335    -0.78   0.436    -25
+> .19213                                                                       
+>           10.86468
+                            L2. |   5.917194   9.144172     0.65   0.518    -12
+> .00505                                                                       
+>           23.83944
+                                |
+                          _cons |  -1.967208    3.48128    -0.57   0.572    -8.
+> 790391                                                                       
+>           4.855976
+--------------------------------+----------------------------------------------
+> ------------------
+MonthOnMUSgdpChange             |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.0022736   .0108182    -0.21   0.834    -.0
+> 234769                                                                       
+>           .0189297
+                            L2. |  -.0108287   .0109321    -0.99   0.322    -.0
+> 322551                                                                       
+>           .0105978
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -.0882351   .0894226    -0.99   0.324    -.2
+> 635002                                                                       
+>             .08703
+                            L2. |   .2691962   .0870907     3.09   0.002     .0
+> 985015                                                                       
+>           .4398908
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -.0060452   .0072879    -0.83   0.407    -.0
+> 203291                                                                       
+>           .0082387
+                            L2. |  -.0084099   .0076663    -1.10   0.273    -.0
+> 234357                                                                       
+>           .0066158
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0005252   .0002474     2.12   0.034     .0
+> 000403                                                                       
+>           .0010101
+                            L2. |   .0001996   .0002409     0.83   0.407    -.0
+> 002725                                                                       
+>           .0006717
+                                |
+            MonthOnMUSgdpChange |
+                            L1. |   1.891607   .0301205    62.80   0.000     1.
+> 832572                                                                       
+>           1.950643
+                            L2. |  -.9500198   .0299207   -31.75   0.000    -1.
+> 008663                                                                       
+>          -.8913763
+                                |
+                          _cons |   .0406102   .0245243     1.66   0.098    -.0
+> 074565                                                                       
+>            .088677
+-------------------------------------------------------------------------------
+> ------------------
+
+. 
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |   .9450933 +  .2201106i  |   .970387   |
+  |   .9450933 -  .2201106i  |   .970387   |
+  |   .6429621               |   .642962   |
+  |   -.356167 +  .3536436i  |   .501915   |
+  |   -.356167 -  .3536436i  |   .501915   |
+  |   .4133146               |   .413315   |
+  |   .1422332 +  .3057536i  |   .337217   |
+  |   .1422332 -  .3057536i  |   .337217   |
+  |  -.2136596               |    .21366   |
+  |  -.1951396               |    .19514   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. varlmar
+
+   Lagrange-multiplier test
+  +--------------------------------------+
+  | lag  |      chi2    df   Prob > chi2 |
+  |------+-------------------------------|
+  |   1  |  -1.1e+03    25     1.00000   |
+  |   2  |  -1.2e+03    25     1.00000   |
+  +--------------------------------------+
+   H0: no autocorrelation at lag order
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  | InflationMOMLes~y  ChangesInEffect~s |  .76848     2    0.681    |
+  | InflationMOMLes~y  ChinaReserveCha~t |   1.848     2    0.397    |
+  | InflationMOMLes~y  ChangeInInflati~C |   7.959     2    0.019    |
+  | InflationMOMLes~y  MonthOnMUSgdpCh~e |  .11164     2    0.946    |
+  | InflationMOMLes~y                ALL |   10.76     8    0.216    |
+  |--------------------------------------+---------------------------|
+  | ChangesInEffect~s  InflationMOMLes~y |  .87962     2    0.644    |
+  | ChangesInEffect~s  ChinaReserveCha~t |       .     0        .    |
+  | ChangesInEffect~s  ChangeInInflati~C |  .77513     2    0.679    |
+  | ChangesInEffect~s  MonthOnMUSgdpCh~e |  8.4302     2    0.015    |
+  | ChangesInEffect~s                ALL |  9.8509     6    0.131    |
+  |--------------------------------------+---------------------------|
+  | ChinaReserveCha~t  InflationMOMLes~y |  .82775     2    0.661    |
+  | ChinaReserveCha~t  ChangesInEffect~s |  1.0811     2    0.582    |
+  | ChinaReserveCha~t  ChangeInInflati~C |  .84529     2    0.655    |
+  | ChinaReserveCha~t  MonthOnMUSgdpCh~e |  3.2913     2    0.193    |
+  | ChinaReserveCha~t                ALL |  5.6039     8    0.692    |
+  |--------------------------------------+---------------------------|
+  | ChangeInInflati~C  InflationMOMLes~y |  3.7074     2    0.157    |
+  | ChangeInInflati~C  ChangesInEffect~s |    2.78     2    0.249    |
+  | ChangeInInflati~C  ChinaReserveCha~t |       .     0        .    |
+  | ChangeInInflati~C  MonthOnMUSgdpCh~e |  .75607     2    0.685    |
+  | ChangeInInflati~C                ALL |  7.0975     6    0.312    |
+  |--------------------------------------+---------------------------|
+  | MonthOnMUSgdpCh~e  InflationMOMLes~y |  1.0947     2    0.578    |
+  | MonthOnMUSgdpCh~e  ChangesInEffect~s |   10.73     2    0.005    |
+  | MonthOnMUSgdpCh~e  ChinaReserveCha~t |  2.4696     2    0.291    |
+  | MonthOnMUSgdpCh~e  ChangeInInflati~C |  4.5673     2    0.102    |
+  | MonthOnMUSgdpCh~e                ALL |  16.618     8    0.034    |
+  +------------------------------------------------------------------+
+
+.  predict e2, resid
+(5 missing values generated)
+
+.  gen Le2=e2[_n-1]
+(5 missing values generated)
+
+.  regress e2 Le2  if inrange(monthly_date, tm(2002m1), tm(2011m10))
+
+      Source |       SS           df       MS      Number of obs   =       118
+-------------+----------------------------------   F(1, 116)       =      0.01
+       Model |  .011093123         1  .011093123   Prob > F        =    0.9213
+    Residual |  131.360485       116  1.13241797   R-squared       =    0.0001
+-------------+----------------------------------   Adj R-squared   =   -0.0085
+       Total |  131.371578       117    1.122834   Root MSE        =    1.0642
+
+------------------------------------------------------------------------------
+          e2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         Le2 |  -.0091951   .0929037    -0.10   0.921    -.1932025    .1748123
+       _cons |   .0000105   .0979631     0.00   1.000    -.1940179    .1940388
+------------------------------------------------------------------------------
+
+. 
+. swilk e2  if inrange(monthly_date, tm(2002m1), tm(2011m10))
+
+                   Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob>z
+-------------+------------------------------------------------------
+          e2 |        118    0.98551      1.375     0.713    0.23792
+
+. sfrancia e2 if inrange(monthly_date, tm(2002m1), tm(2011m10))
+
+                  Shapiro-Francia W' test for normal data
+
+    Variable |       Obs       W'          V'        z       Prob>z
+-------------+-----------------------------------------------------
+          e2 |       118    0.98568      1.494     0.802    0.21115
+
+.  constraint 7 [ChangeInInflationExpectationMIC]L3.ChinaReserveChangeInPercent
+>   = 0
+
+. 
+.    constraint 8 [ChangesInEffectiveFedFundRates]L3.ChinaReserveChangeInPercen
+> t  = 0
+
+. 
+.  constraint 9 [ChangeInInflationExpectationMIC]L3.ChangeInInflationExpectatio
+> nMIC = 0
+
+. 
+.  
+.  
+.   var InflationMOMLessFoodEnergy  ChangesInEffectiveFedFundRates  ChinaReserv
+> eChangeInPercent     ChangeInInflationExpectationMIC       if inrange(monthly
+> _date,tm(2012m1), tm(2015m10)), lutstats  dfk constraints(1 2 3 4 5 6 7 8 9) 
+> exog(L3.InflationMOMLessFoodEnergy  L3.ChangesInEffectiveFedFundRates  L3.Chi
+> naReserveChangeInPercent     L3.ChangeInInflationExpectationMIC L3.MonthOnMUS
+> gdpChange)
+Estimating VAR coefficients
+
+Iteration 1:   tolerance =   .7793447
+Iteration 2:   tolerance =   1.758994
+Iteration 3:   tolerance =   .4348961
+Iteration 4:   tolerance =   .1662801
+Iteration 5:   tolerance =   .1033747
+Iteration 6:   tolerance =  .06355387
+Iteration 7:   tolerance =    .037386
+Iteration 8:   tolerance =  .02138624
+Iteration 9:   tolerance =  .01203051
+Iteration 10:   tolerance =  .00670214
+Iteration 11:   tolerance =   .0037131
+Iteration 12:   tolerance =  .00205066
+Iteration 13:   tolerance =  .00113051
+Iteration 14:   tolerance =   .0006226
+Iteration 15:   tolerance =  .00034267
+Iteration 16:   tolerance =  .00018854
+Iteration 17:   tolerance =  .00010371
+Iteration 18:   tolerance =  .00005704
+Iteration 19:   tolerance =  .00003136
+Iteration 20:   tolerance =  .00001725
+Iteration 21:   tolerance =  9.483e-06
+Iteration 22:   tolerance =  5.214e-06
+Iteration 23:   tolerance =  2.866e-06
+Iteration 24:   tolerance =  1.576e-06
+Iteration 25:   tolerance =  8.662e-07
+
+
+Vector autoregression
+
+Sample:  2012m1 - 2015m10                       Number of obs     =         46
+Log likelihood =  -136.6763          (lutstats) AIC               =  -8.297088
+FPE            =   .0005011                     HQIC              =  -7.820552
+Det(Sigma_ml)  =    .000062                     SBIC              =  -7.024989
+
+Equation           Parms      RMSE     R-sq      chi2     P>chi2
+----------------------------------------------------------------
+InflationMOMLe~y     14     .605815   0.3462   23.49918   0.0361
+ChangesInEffec~s     11     .013108   0.1065   9.310842   0.5029
+ChinaReserveCh~t     14     1.08135   0.3110    34.6092   0.0010
+ChangeInInflat~C      8     10.7828   0.1488   5.985545   0.5414
+----------------------------------------------------------------
+
+ ( 1)  [ChangeInInflationExpectationMIC]L.ChinaReserveChangeInPercent = 0
+ ( 2)  [ChangeInInflationExpectationMIC]L2.ChinaReserveChangeInPercent = 0
+ ( 3)  [ChangesInEffectiveFedFundRates]L.ChinaReserveChangeInPercent = 0
+ ( 4)  [ChangesInEffectiveFedFundRates]L2.ChinaReserveChangeInPercent = 0
+ ( 5)  [ChangeInInflationExpectationMIC]L.ChangeInInflationExpectationMIC = 0
+ ( 6)  [ChangeInInflationExpectationMIC]L2.ChangeInInflationExpectationMIC = 0
+ ( 7)  [ChangeInInflationExpectationMIC]L3.ChinaReserveChangeInPercent = 0
+ ( 8)  [ChangesInEffectiveFedFundRates]L3.ChinaReserveChangeInPercent = 0
+ ( 9)  [ChangeInInflationExpectationMIC]L3.ChangeInInflationExpectationMIC = 0
+-------------------------------------------------------------------------------
+> ------------------
+                                |      Coef.   Std. Err.      z    P>|z|     [9
+> 5% Con                                                                       
+>       f. Interval]
+--------------------------------+----------------------------------------------
+> ------------------
+InflationMOMLessFoodEnergy      |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.4209349   .1777648    -2.37   0.018    -.7
+> 693475                                                                       
+>          -.0725223
+                            L2. |  -.3705439   .1578024    -2.35   0.019    -.6
+> 798309                                                                       
+>           -.061257
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -.0190861   8.489985    -0.00   0.998    -16
+> .65915                                                                       
+>           16.62098
+                            L2. |  -8.068017    8.27118    -0.98   0.329    -24
+> .27923                                                                       
+>           8.143197
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -.2309308   .0879322    -2.63   0.009    -.4
+> 032748                                                                       
+>          -.0585868
+                            L2. |   .1027562   .0865018     1.19   0.235    -.0
+> 667842                                                                       
+>           .2722966
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0249073   .0138803     1.79   0.073    -.0
+> 022976                                                                       
+>           .0521123
+                            L2. |   .0205913   .0173005     1.19   0.234     -.
+> 013317                                                                       
+>           .0544995
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |  -.2905184   .1758026    -1.65   0.098    -.6
+> 350852                                                                       
+>           .0540484
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |  -1.014105    8.55205    -0.12   0.906    -17
+> .77582                                                                       
+>           15.74761
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |    .069492   .0883384     0.79   0.431    -.1
+> 036482                                                                       
+>           .2426321
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |  -.0028388   .0131463    -0.22   0.829    -.0
+> 286051                                                                       
+>           .0229276
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |  -.0997422   .1432601    -0.70   0.486    -.3
+> 805269                                                                       
+>           .1810425
+                                |
+                          _cons |   .0394435   .1172537     0.34   0.737    -.1
+> 903695                                                                       
+>           .2692565
+--------------------------------+----------------------------------------------
+> ------------------
+ChangesInEffectiveFedFundRates  |
+     InflationMOMLessFoodEnergy |
+                            L1. |   .0027556   .0033855     0.81   0.416    -.0
+> 038798                                                                       
+>            .009391
+                            L2. |   .0014779   .0033036     0.45   0.655    -.0
+> 049971                                                                       
+>           .0079528
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   -.041929   .1786015    -0.23   0.814    -.3
+> 919815                                                                       
+>           .3081235
+                            L2. |     .08882   .1770392     0.50   0.616    -.2
+> 581705                                                                       
+>           .4358106
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   2.94e-19   2.27e-19     1.30   0.195    -1.
+> 51e-19                                                                       
+>           7.39e-19
+                            L2. |   3.66e-19   2.73e-19     1.34   0.180    -1.
+> 69e-19                                                                       
+>           9.02e-19
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |  -.0004155   .0002807    -1.48   0.139    -.0
+> 009657                                                                       
+>           .0001347
+                            L2. |   -.000082   .0003443    -0.24   0.812    -.0
+> 007568                                                                       
+>           .0005928
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |   .0057681    .003616     1.60   0.111    -.0
+> 013192                                                                       
+>           .0128554
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |  -.0321066   .1763194    -0.18   0.856    -.3
+> 776863                                                                       
+>           .3134731
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |  -1.64e-18   1.00e-18    -1.63   0.103    -3.
+> 60e-18                                                                       
+>           3.28e-19
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |    .000024   .0002667     0.09   0.928    -.0
+> 004987                                                                       
+>           .0005468
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |   .0049287   .0030222     1.63   0.103    -.0
+> 009946                                                                       
+>            .010852
+                                |
+                          _cons |   -.000423   .0023864    -0.18   0.859    -.0
+> 051001                                                                       
+>           .0042542
+--------------------------------+----------------------------------------------
+> ------------------
+ChinaReserveChangeInPercent     |
+     InflationMOMLessFoodEnergy |
+                            L1. |   .0706521   .3090269     0.23   0.819    -.5
+> 350295                                                                       
+>           .6763338
+                            L2. |   .1840803   .2790439     0.66   0.509    -.3
+> 628356                                                                       
+>           .7309962
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   4.973126   14.98114     0.33   0.740    -24
+> .38937                                                                       
+>           34.33563
+                            L2. |  -11.54752   14.62464    -0.79   0.430    -40
+> .21129                                                                       
+>           17.11625
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   .1466027   .1401618     1.05   0.296    -.1
+> 281094                                                                       
+>           .4213149
+                            L2. |   .1345314   .1378817     0.98   0.329    -.1
+> 357118                                                                       
+>           .4047747
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0613199    .022287     2.75   0.006     .0
+> 176381                                                                       
+>           .1050017
+                            L2. |   .0435289   .0277722     1.57   0.117    -.0
+> 109037                                                                       
+>           .0979614
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |   .7858073   .3086315     2.55   0.011     .1
+> 809008                                                                       
+>           1.390714
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |  -10.52805   15.05713    -0.70   0.484    -40
+> .03948                                                                       
+>           18.98339
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |   .3351847   .1408093     2.38   0.017     .0
+> 592036                                                                       
+>           .6111658
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |   .0120334   .0211095     0.57   0.569    -.0
+> 293404                                                                       
+>           .0534073
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |  -.2309346   .2543068    -0.91   0.364    -.7
+> 293667                                                                       
+>           .2674975
+                                |
+                          _cons |   .1394905    .206791     0.67   0.500    -.2
+> 658124                                                                       
+>           .5447934
+--------------------------------+----------------------------------------------
+> ------------------
+ChangeInInflationExpectationMIC |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -3.630097   2.728783    -1.33   0.183    -8.
+> 978412                                                                       
+>           1.718219
+                            L2. |   3.780112   2.674063     1.41   0.157    -1.
+> 460954                                                                       
+>           9.021179
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -13.04182   142.0625    -0.09   0.927    -29
+> 1.4792                                                                       
+>           265.3955
+                            L2. |   121.8256    139.851     0.87   0.384    -15
+> 2.2772                                                                       
+>           395.9285
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -3.42e-16   4.81e-16    -0.71   0.476    -1.
+> 28e-15                                                                       
+>           6.00e-16
+                            L2. |  -3.65e-16   1.83e-16    -1.99   0.046    -7.
+> 25e-16                                                                       
+>          -6.33e-18
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   4.77e-16   1.18e-16     4.04   0.000     2.
+> 45e-16                                                                       
+>           7.08e-16
+                            L2. |   7.58e-16   2.06e-16     3.69   0.000     3.
+> 55e-16                                                                       
+>           1.16e-15
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |  -3.095857   2.857812    -1.08   0.279    -8.
+> 697066                                                                       
+>           2.505353
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |  -8.750163   141.4489    -0.06   0.951    -28
+> 5.9849                                                                       
+>           268.4846
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |   1.66e-15   8.29e-16     2.00   0.045     3.
+> 33e-17                                                                       
+>           3.28e-15
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |   6.67e-16   2.19e-16     3.05   0.002     2.
+> 38e-16                                                                       
+>           1.10e-15
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |  -.3971169   2.479484    -0.16   0.873    -5.
+> 256815                                                                       
+>           4.462582
+                                |
+                          _cons |   .1110332    1.96062     0.06   0.955    -3.
+> 731711                                                                       
+>           3.953777
+-------------------------------------------------------------------------------
+> ------------------
+
+. 
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |  -.1956088 +  .7099084i  |   .736365   |
+  |  -.1956088 -  .7099084i  |   .736365   |
+  |   .4463562               |   .446356   |
+  |  -.4360225 + .01884875i  |    .43643   |
+  |  -.4360225 - .01884875i  |    .43643   |
+  |   .2859243 +  .2372709i  |   .371551   |
+  |   .2859243 -  .2372709i  |   .371551   |
+  | -.07120341               |   .071203   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. varlmar
+
+   Lagrange-multiplier test
+  +--------------------------------------+
+  | lag  |      chi2    df   Prob > chi2 |
+  |------+-------------------------------|
+  |   1  |  -98.1601    16     1.00000   |
+  |   2  |  -1.1e+02    16     1.00000   |
+  +--------------------------------------+
+   H0: no autocorrelation at lag order
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  | InflationMOMLes~y  ChangesInEffect~s |   .9528     2    0.621    |
+  | InflationMOMLes~y  ChinaReserveCha~t |  7.8056     2    0.020    |
+  | InflationMOMLes~y  ChangeInInflati~C |  3.2651     2    0.195    |
+  | InflationMOMLes~y                ALL |  10.499     6    0.105    |
+  |--------------------------------------+---------------------------|
+  | ChangesInEffect~s  InflationMOMLes~y |  .74665     2    0.688    |
+  | ChangesInEffect~s  ChinaReserveCha~t |       .     0        .    |
+  | ChangesInEffect~s  ChangeInInflati~C |  3.5465     2    0.170    |
+  | ChangesInEffect~s                ALL |  4.3231     4    0.364    |
+  |--------------------------------------+---------------------------|
+  | ChinaReserveCha~t  InflationMOMLes~y |  .43999     2    0.803    |
+  | ChinaReserveCha~t  ChangesInEffect~s |  .75153     2    0.687    |
+  | ChinaReserveCha~t  ChangeInInflati~C |  8.0712     2    0.018    |
+  | ChinaReserveCha~t                ALL |  10.407     6    0.109    |
+  |--------------------------------------+---------------------------|
+  | ChangeInInflati~C  InflationMOMLes~y |  4.8788     2    0.087    |
+  | ChangeInInflati~C  ChangesInEffect~s |    .767     2    0.681    |
+  | ChangeInInflati~C  ChinaReserveCha~t |       .     0        .    |
+  | ChangeInInflati~C                ALL |  5.2971     4    0.258    |
+  +------------------------------------------------------------------+
+
+.  predict ee, resid
+(6 missing values generated)
+
+.  gen Lee=ee[_n-1]
+(6 missing values generated)
+
+. regress ee Lee  if inrange(monthly_date,tm(2012m1), tm(2015m10))
+
+      Source |       SS           df       MS      Number of obs   =        46
+-------------+----------------------------------   F(1, 44)        =      0.19
+       Model |  .074159589         1  .074159589   Prob > F        =    0.6617
+    Residual |  16.8083958        44  .382008996   R-squared       =    0.0044
+-------------+----------------------------------   Adj R-squared   =   -0.0182
+       Total |  16.8825554        45  .375167899   Root MSE        =    .61807
+
+------------------------------------------------------------------------------
+          ee |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         Lee |  -.0659965   .1497869    -0.44   0.662    -.3678721    .2358791
+       _cons |  -.0007634   .0911457    -0.01   0.993    -.1844555    .1829288
+------------------------------------------------------------------------------
+
+. 
+. swilk ee if inrange(monthly_date,tm(2012m1), tm(2015m10))
+
+                   Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob>z
+-------------+------------------------------------------------------
+          ee |         46    0.96723      1.444     0.779    0.21797
+
+. sfrancia  ee if inrange(monthly_date,tm(2012m1), tm(2015m10))
+
+                  Shapiro-Francia W' test for normal data
+
+    Variable |       Obs       W'          V'        z       Prob>z
+-------------+-----------------------------------------------------
+          ee |        46    0.96834      1.546     0.819    0.20648
+
+.  var InflationMOMLessFoodEnergy  ChangesInEffectiveFedFundRates  ChinaReserve
+> ChangeInPercent     ChangeInInflationExpectationMIC       if inrange(monthly_
+> date,tm(2002m1), tm(2011m10)), lutstats  dfk constraints(1 2 3 4 5 6 7 8 9) e
+> xog(L3.InflationMOMLessFoodEnergy  L3.ChangesInEffectiveFedFundRates  L3.Chin
+> aReserveChangeInPercent     L3.ChangeInInflationExpectationMIC L3.MonthOnMUSg
+> dpChange)
+Estimating VAR coefficients
+
+Iteration 1:   tolerance =  .01750229
+Iteration 2:   tolerance =  .01111783
+Iteration 3:   tolerance =  .00837094
+Iteration 4:   tolerance =  .00626212
+Iteration 5:   tolerance =  .00467425
+Iteration 6:   tolerance =  .00348343
+Iteration 7:   tolerance =  .00259286
+Iteration 8:   tolerance =  .00192825
+Iteration 9:   tolerance =  .00143304
+Iteration 10:   tolerance =  .00106447
+Iteration 11:   tolerance =  .00079041
+Iteration 12:   tolerance =  .00058674
+Iteration 13:   tolerance =  .00043547
+Iteration 14:   tolerance =  .00032314
+Iteration 15:   tolerance =  .00023977
+Iteration 16:   tolerance =  .00017789
+Iteration 17:   tolerance =  .00013197
+Iteration 18:   tolerance =   .0000979
+Iteration 19:   tolerance =  .00007262
+Iteration 20:   tolerance =  .00005387
+Iteration 21:   tolerance =  .00003996
+Iteration 22:   tolerance =  .00002964
+Iteration 23:   tolerance =  .00002199
+Iteration 24:   tolerance =  .00001631
+Iteration 25:   tolerance =   .0000121
+Iteration 26:   tolerance =  8.973e-06
+Iteration 27:   tolerance =  6.656e-06
+Iteration 28:   tolerance =  4.937e-06
+Iteration 29:   tolerance =  3.662e-06
+Iteration 30:   tolerance =  2.716e-06
+Iteration 31:   tolerance =  2.015e-06
+Iteration 32:   tolerance =  1.494e-06
+Iteration 33:   tolerance =  1.108e-06
+Iteration 34:   tolerance =  8.222e-07
+
+
+Vector autoregression
+
+Sample:  2002m1 - 2011m10                       Number of obs     =        118
+Log likelihood =  -886.4107          (lutstats) AIC               =  -4.592991
+FPE            =   .0130874                     HQIC              =  -4.287912
+Det(Sigma_ml)  =   .0058849                     SBIC              =  -3.841619
+
+Equation           Parms      RMSE     R-sq      chi2     P>chi2
+----------------------------------------------------------------
+InflationMOMLe~y     14     .998718   0.3182   56.73357   0.0000
+ChangesInEffec~s     11     .128817   0.4745   95.91071   0.0000
+ChinaReserveCh~t     14     1.42979   0.1728   22.27579   0.0512
+ChangeInInflat~C      8      35.701   0.0655   7.441178   0.3844
+----------------------------------------------------------------
+
+ ( 1)  [ChangeInInflationExpectationMIC]L.ChinaReserveChangeInPercent = 0
+ ( 2)  [ChangeInInflationExpectationMIC]L2.ChinaReserveChangeInPercent = 0
+ ( 3)  [ChangesInEffectiveFedFundRates]L.ChinaReserveChangeInPercent = 0
+ ( 4)  [ChangesInEffectiveFedFundRates]L2.ChinaReserveChangeInPercent = 0
+ ( 5)  [ChangeInInflationExpectationMIC]L.ChangeInInflationExpectationMIC = 0
+ ( 6)  [ChangeInInflationExpectationMIC]L2.ChangeInInflationExpectationMIC = 0
+ ( 7)  [ChangeInInflationExpectationMIC]L3.ChinaReserveChangeInPercent = 0
+ ( 8)  [ChangesInEffectiveFedFundRates]L3.ChinaReserveChangeInPercent = 0
+ ( 9)  [ChangeInInflationExpectationMIC]L3.ChangeInInflationExpectationMIC = 0
+-------------------------------------------------------------------------------
+> ------------------
+                                |      Coef.   Std. Err.      z    P>|z|     [9
+> 5% Con                                                                       
+>       f. Interval]
+--------------------------------+----------------------------------------------
+> ------------------
+InflationMOMLessFoodEnergy      |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.5544094   .0958282    -5.79   0.000    -.7
+> 422293                                                                       
+>          -.3665895
+                            L2. |  -.2975412   .1119691    -2.66   0.008    -.5
+> 169965                                                                       
+>          -.0780859
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .5225825   .7630078     0.68   0.493    -.9
+> 728853                                                                       
+>            2.01805
+                            L2. |   .8750978   .8864809     0.99   0.324    -.8
+> 623729                                                                       
+>           2.612568
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -.0763637   .0629858    -1.21   0.225    -.1
+> 998136                                                                       
+>           .0470862
+                            L2. |  -.0175164   .0667764    -0.26   0.793    -.1
+> 483958                                                                       
+>           .1133629
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0021101   .0024404     0.86   0.387     -.
+> 002673                                                                       
+>           .0068932
+                            L2. |   .0020989   .0027713     0.76   0.449    -.0
+> 033328                                                                       
+>           .0075306
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |  -.1645655   .0972569    -1.69   0.091    -.3
+> 551856                                                                       
+>           .0260546
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |  -1.087981   .7481959    -1.45   0.146    -2.
+> 554418                                                                       
+>           .3784563
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |  -.0259427   .0663049    -0.39   0.696    -.1
+> 558978                                                                       
+>           .1040125
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |  -.0046668   .0023506    -1.99   0.047    -.0
+> 092739                                                                       
+>          -.0000597
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |   .0465759   .0719499     0.65   0.517    -.0
+> 944433                                                                       
+>           .1875952
+                                |
+                          _cons |    .269559   .2417621     1.11   0.265    -.2
+> 042861                                                                       
+>           .7434041
+--------------------------------+----------------------------------------------
+> ------------------
+ChangesInEffectiveFedFundRates  |
+     InflationMOMLessFoodEnergy |
+                            L1. |   .0047393   .0122535     0.39   0.699    -.0
+> 192772                                                                       
+>           .0287558
+                            L2. |   -.000612   .0141435    -0.04   0.965    -.0
+> 283327                                                                       
+>           .0271087
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .6179873    .098091     6.30   0.000     .4
+> 257326                                                                       
+>           .8102421
+                            L2. |   .0422766   .1141581     0.37   0.711    -.1
+> 814691                                                                       
+>           .2660222
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   1.87e-19   9.59e-19     0.20   0.845    -1.
+> 69e-18                                                                       
+>           2.07e-18
+                            L2. |   4.73e-19   5.52e-19     0.86   0.392    -6.
+> 09e-19                                                                       
+>           1.55e-18
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0001732     .00032     0.54   0.588    -.0
+> 004541                                                                       
+>           .0008004
+                            L2. |   .0004143    .000364     1.14   0.255    -.0
+> 002992                                                                       
+>           .0011278
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |   -.015541   .0123524    -1.26   0.208    -.0
+> 397513                                                                       
+>           .0086693
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |   .0408036   .0960694     0.42   0.671    -.1
+> 474888                                                                       
+>           .2290961
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |  -3.96e-19   5.97e-19    -0.66   0.507    -1.
+> 57e-18                                                                       
+>           7.74e-19
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |    .000059    .000311     0.19   0.850    -.0
+> 005505                                                                       
+>           .0006685
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |   .0035878   .0089421     0.40   0.688    -.0
+> 139384                                                                       
+>           .0211141
+                                |
+                          _cons |   -.002617   .0126705    -0.21   0.836    -.0
+> 274507                                                                       
+>           .0222168
+--------------------------------+----------------------------------------------
+> ------------------
+ChinaReserveChangeInPercent     |
+     InflationMOMLessFoodEnergy |
+                            L1. |   .0902347   .1373473     0.66   0.511     -.
+> 178961                                                                       
+>           .3594304
+                            L2. |   .1623519   .1607355     1.01   0.312    -.1
+> 526839                                                                       
+>           .4773876
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .4950434   1.092788     0.45   0.651    -1.
+> 646782                                                                       
+>           2.636869
+                            L2. |  -2.656432   1.269441    -2.09   0.036    -5.
+> 144491                                                                       
+>          -.1683737
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   .2357168   .0936941     2.52   0.012     .0
+> 520798                                                                       
+>           .4193539
+                            L2. |   .0780395   .0993328     0.79   0.432    -.1
+> 166491                                                                       
+>           .2727282
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0007612   .0035839     0.21   0.832    -.0
+> 062632                                                                       
+>           .0077856
+                            L2. |   .0038365   .0040698     0.94   0.346    -.0
+> 041401                                                                       
+>           .0118131
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |   .0434347   .1396217     0.31   0.756    -.2
+> 302187                                                                       
+>           .3170881
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |   2.840699   1.072014     2.65   0.008     .7
+> 395902                                                                       
+>           4.941808
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |   .1140006   .0986313     1.16   0.248    -.0
+> 793132                                                                       
+>           .3073145
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |   .0026839   .0034513     0.78   0.437    -.0
+> 040805                                                                       
+>           .0094483
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |   .0138902   .1033015     0.13   0.893     -.
+> 188577                                                                       
+>           .2163573
+                                |
+                          _cons |   1.360829   .3574352     3.81   0.000     .6
+> 602693                                                                       
+>           2.061389
+--------------------------------+----------------------------------------------
+> ------------------
+ChangeInInflationExpectationMIC |
+     InflationMOMLessFoodEnergy |
+                            L1. |   3.393686    3.36596     1.01   0.313    -3.
+> 203474                                                                       
+>           9.990847
+                            L2. |   -3.08259   3.834088    -0.80   0.421    -10
+> .59726                                                                       
+>           4.432084
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -1.220779   27.11028    -0.05   0.964    -54
+> .35595                                                                       
+>            51.9144
+                            L2. |   17.08131   31.55868     0.54   0.588    -44
+> .77257                                                                       
+>           78.93519
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |  -6.00e-18   1.16e-16    -0.05   0.959    -2.
+> 34e-16                                                                       
+>           2.22e-16
+                            L2. |   6.30e-16   2.81e-16     2.25   0.025     8.
+> 01e-17                                                                       
+>           1.18e-15
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   2.74e-16   3.51e-17     7.81   0.000     2.
+> 05e-16                                                                       
+>           3.43e-16
+                            L2. |   1.70e-16   4.27e-17     3.98   0.000     8.
+> 64e-17                                                                       
+>           2.54e-16
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |  -1.503546   3.317849    -0.45   0.650    -8.
+> 006411                                                                       
+>           4.999319
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |   25.92051   26.39167     0.98   0.326    -25
+> .80621                                                                       
+>           77.64724
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |  -1.92e-16   1.57e-16    -1.22   0.221    -4.
+> 99e-16                                                                       
+>           1.15e-16
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |   2.26e-17   8.69e-18     2.59   0.009     5.
+> 51e-18                                                                       
+>           3.96e-17
+                                |
+            MonthOnMUSgdpChange |
+                            L3. |  -.8190517   2.476817    -0.33   0.741    -5.
+> 673523                                                                       
+>            4.03542
+                                |
+                          _cons |    -1.8622   3.511226    -0.53   0.596    -8.
+> 744076                                                                       
+>           5.019677
+-------------------------------------------------------------------------------
+> ------------------
+
+. 
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |   .7068817               |   .706882   |
+  |  -.2973719 +  .4373115i  |    .52884   |
+  |  -.2973719 -  .4373115i  |    .52884   |
+  |   .4074656               |   .407466   |
+  |  .05483747 +  .2498468i  |   .255794   |
+  |  .05483747 -  .2498468i  |   .255794   |
+  |  -.1649919 + .01090558i  |   .165352   |
+  |  -.1649919 - .01090558i  |   .165352   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. varlmar
+
+   Lagrange-multiplier test
+  +--------------------------------------+
+  | lag  |      chi2    df   Prob > chi2 |
+  |------+-------------------------------|
+  |   1  |  -8.8e+02    16     1.00000   |
+  |   2  |  -8.8e+02    16     1.00000   |
+  +--------------------------------------+
+   H0: no autocorrelation at lag order
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  | InflationMOMLes~y  ChangesInEffect~s |  2.8537     2    0.240    |
+  | InflationMOMLes~y  ChinaReserveCha~t |  1.7704     2    0.413    |
+  | InflationMOMLes~y  ChangeInInflati~C |   .8191     2    0.664    |
+  | InflationMOMLes~y                ALL |  5.0397     6    0.539    |
+  |--------------------------------------+---------------------------|
+  | ChangesInEffect~s  InflationMOMLes~y |  .22594     2    0.893    |
+  | ChangesInEffect~s  ChinaReserveCha~t |       .     0        .    |
+  | ChangesInEffect~s  ChangeInInflati~C |  1.3517     2    0.509    |
+  | ChangesInEffect~s                ALL |  1.5636     4    0.815    |
+  |--------------------------------------+---------------------------|
+  | ChinaReserveCha~t  InflationMOMLes~y |  1.0461     2    0.593    |
+  | ChinaReserveCha~t  ChangesInEffect~s |  4.8674     2    0.088    |
+  | ChinaReserveCha~t  ChangeInInflati~C |  1.1435     2    0.565    |
+  | ChinaReserveCha~t                ALL |  6.9399     6    0.326    |
+  |--------------------------------------+---------------------------|
+  | ChangeInInflati~C  InflationMOMLes~y |  3.4648     2    0.177    |
+  | ChangeInInflati~C  ChangesInEffect~s |  .36347     2    0.834    |
+  | ChangeInInflati~C  ChinaReserveCha~t |       .     0        .    |
+  | ChangeInInflati~C                ALL |  3.6188     4    0.460    |
+  +------------------------------------------------------------------+
+
+.  predict ee2, resid
+(6 missing values generated)
+
+.  gen Lee2=ee2[_n-1]
+(6 missing values generated)
+
+.  regress ee2 Lee2    if inrange(monthly_date,tm(2002m1), tm(2011m10))
+
+      Source |       SS           df       MS      Number of obs   =       118
+-------------+----------------------------------   F(1, 116)       =      0.47
+       Model |  .475418509         1  .475418509   Prob > F        =    0.4941
+    Residual |  117.222301       116  1.01053708   R-squared       =    0.0040
+-------------+----------------------------------   Adj R-squared   =   -0.0045
+       Total |   117.69772       117  1.00596342   Root MSE        =    1.0053
+
+------------------------------------------------------------------------------
+         ee2 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        Lee2 |  -.0634878   .0925611    -0.69   0.494    -.2468166     .119841
+       _cons |  -.0000873   .0925413    -0.00   0.999     -.183377    .1832024
+------------------------------------------------------------------------------
+
+. 
+. swilk ee2     if inrange(monthly_date,tm(2002m1), tm(2011m10))
+
+                   Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob>z
+-------------+------------------------------------------------------
+         ee2 |        118    0.99047      0.904    -0.225    0.58890
+
+. sfrancia ee2     if inrange(monthly_date,tm(2002m1), tm(2011m10))
+
+                  Shapiro-Francia W' test for normal data
+
+    Variable |       Obs       W'          V'        z       Prob>z
+-------------+-----------------------------------------------------
+         ee2 |       118    0.98902      1.146     0.273    0.39261
+
+. quietly var InflationMOMLessFoodEnergy  ChangesInEffectiveFedFundRates MonthO
+> nMUSgdpChange  ChinaReserveChangeInPercent     ChangeInInflationExpectationMI
+> C       if inrange(monthly_date,tm(2000m1), tm(2020m12)), lutstats  dfk const
+> raints(1 2 3 4 5 6 7 8 9) exog(L3.InflationMOMLessFoodEnergy  L3.ChangesInEff
+> ectiveFedFundRates  L3.ChinaReserveChangeInPercent     L3.ChangeInInflationEx
+> pectationMIC L3.MonthOnMUSgdpChange)
+
+. 
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |   .7104732               |   .710473   |
+  |   .5033652 +  .1952316i  |     .5399   |
+  |   .5033652 -  .1952316i  |     .5399   |
+  |  -.2133028 +  .4841434i  |   .529049   |
+  |  -.2133028 -  .4841434i  |   .529049   |
+  |    .446526               |   .446526   |
+  |    -.37386               |    .37386   |
+  |  -.1528077 +  .2060229i  |   .256507   |
+  |  -.1528077 -  .2060229i  |   .256507   |
+  |  -.1429165               |   .142917   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. varlmar
+
+   Lagrange-multiplier test
+  +--------------------------------------+
+  | lag  |      chi2    df   Prob > chi2 |
+  |------+-------------------------------|
+  |   1  |  -3.0e+03    25     1.00000   |
+  |   2  |  -3.1e+03    25     1.00000   |
+  +--------------------------------------+
+   H0: no autocorrelation at lag order
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  | InflationMOMLes~y  ChangesInEffect~s |  1.0832     2    0.582    |
+  | InflationMOMLes~y  MonthOnMUSgdpCh~e |  33.345     2    0.000    |
+  | InflationMOMLes~y  ChinaReserveCha~t |  1.8772     2    0.391    |
+  | InflationMOMLes~y  ChangeInInflati~C |  2.7592     2    0.252    |
+  | InflationMOMLes~y                ALL |  48.129     8    0.000    |
+  |--------------------------------------+---------------------------|
+  | ChangesInEffect~s  InflationMOMLes~y |  .88789     2    0.642    |
+  | ChangesInEffect~s  MonthOnMUSgdpCh~e |  4.4556     2    0.108    |
+  | ChangesInEffect~s  ChinaReserveCha~t |       .     0        .    |
+  | ChangesInEffect~s  ChangeInInflati~C |  3.0395     2    0.219    |
+  | ChangesInEffect~s                ALL |  8.2322     6    0.222    |
+  |--------------------------------------+---------------------------|
+  | MonthOnMUSgdpCh~e  InflationMOMLes~y |  1.4312     2    0.489    |
+  | MonthOnMUSgdpCh~e  ChangesInEffect~s |   .0371     2    0.982    |
+  | MonthOnMUSgdpCh~e  ChinaReserveCha~t |  .70592     2    0.703    |
+  | MonthOnMUSgdpCh~e  ChangeInInflati~C |  1.0836     2    0.582    |
+  | MonthOnMUSgdpCh~e                ALL |   2.806     8    0.946    |
+  |--------------------------------------+---------------------------|
+  | ChinaReserveCha~t  InflationMOMLes~y |  3.3803     2    0.184    |
+  | ChinaReserveCha~t  ChangesInEffect~s |  3.0072     2    0.222    |
+  | ChinaReserveCha~t  MonthOnMUSgdpCh~e |  .57766     2    0.749    |
+  | ChinaReserveCha~t  ChangeInInflati~C |  .61189     2    0.736    |
+  | ChinaReserveCha~t                ALL |  7.3432     8    0.500    |
+  |--------------------------------------+---------------------------|
+  | ChangeInInflati~C  InflationMOMLes~y |  6.2783     2    0.043    |
+  | ChangeInInflati~C  ChangesInEffect~s |  .87585     2    0.645    |
+  | ChangeInInflati~C  MonthOnMUSgdpCh~e |  3.0281     2    0.220    |
+  | ChangeInInflati~C  ChinaReserveCha~t |       .     0        .    |
+  | ChangeInInflati~C                ALL |  9.7087     6    0.137    |
+  +------------------------------------------------------------------+
+
+.  predict ee3, resid
+(6 missing values generated)
+
+. 
+.   gen Lee3=ee3[_n-1]
+(6 missing values generated)
+
+.   regress ee3 Lee3    if inrange(monthly_date,tm(2000m1), tm(2020m12))
+
+      Source |       SS           df       MS      Number of obs   =       245
+-------------+----------------------------------   F(1, 243)       =      0.83
+       Model |  .749572423         1  .749572423   Prob > F        =    0.3624
+    Residual |  218.737468       243  .900154189   R-squared       =    0.0034
+-------------+----------------------------------   Adj R-squared   =   -0.0007
+       Total |   219.48704       244  .899537051   Root MSE        =    .94876
+
+------------------------------------------------------------------------------
+         ee3 |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        Lee3 |  -.0584374   .0640387    -0.91   0.362    -.1845793    .0677044
+       _cons |  -.0000334   .0606144    -0.00   1.000      -.11943    .1193632
+------------------------------------------------------------------------------
+
+. 
+. swilk  ee3     if inrange(monthly_date,tm(2000m1), tm(2020m12))
+
+                   Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob>z
+-------------+------------------------------------------------------
+         ee3 |        245    0.98390      2.868     2.449    0.00717
+
+. sfrancia   ee3     if inrange(monthly_date,tm(2000m1), tm(2020m12))
+
+                  Shapiro-Francia W' test for normal data
+
+    Variable |       Obs       W'          V'        z       Prob>z
+-------------+-----------------------------------------------------
+         ee3 |       245    0.98087      3.706     2.745    0.00303
+
+. * regression on the entire 2000-2020 period is not significant here (serial c
+> orrelation in errors, underlying breaks in data...)
+
+. log off
+      name:  <unnamed>
+       log:  /Users/nicolaszhang/Downloads/Stata Rec 6/VARandGrangerChina.smcl
+  log type:  smcl
+ paused on:  12 Nov 2020, 18:30:52
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/nicolaszhang/Downloads/Stata Rec 6/VARandGrangerChina.smcl
+  log type:  smcl
+resumed on:  12 Nov 2020, 18:40:23
+
+. var InflationMOMLessFoodEnergy  ChangesInEffectiveFedFundRates   ChinaReserve
+> ChangeInPercent     ChangeInInflationExpectationMIC   MonthtomonthchangeinEne
+> rgy     if inrange(monthly_date,tm(2017m2), tm(2020m12)), lutstats  dfk const
+> raints(1 2 3 4 5 6 7 8 9) exog(L3.InflationMOMLessFoodEnergy  L3.ChangesInEff
+> ectiveFedFundRates  L3.ChinaReserveChangeInPercent     L3.ChangeInInflationEx
+> pectationMIC L3.MonthtomonthchangeinEnergy )
+Estimating VAR coefficients
+
+Iteration 1:   tolerance =   .8375448
+Iteration 2:   tolerance =  .08624325
+Iteration 3:   tolerance =  .04027795
+Iteration 4:   tolerance =  .01762477
+Iteration 5:   tolerance =  .00793273
+Iteration 6:   tolerance =  .00360559
+Iteration 7:   tolerance =  .00164582
+Iteration 8:   tolerance =  .00075288
+Iteration 9:   tolerance =  .00034485
+Iteration 10:   tolerance =  .00015809
+Iteration 11:   tolerance =  .00007252
+Iteration 12:   tolerance =  .00003329
+Iteration 13:   tolerance =  .00001529
+Iteration 14:   tolerance =  7.024e-06
+Iteration 15:   tolerance =  3.229e-06
+Iteration 16:   tolerance =  1.485e-06
+Iteration 17:   tolerance =  6.831e-07
+
+
+Vector autoregression
+
+Sample:  2017m2 - 2020m5                        Number of obs     =         40
+Log likelihood =  -370.8874          (lutstats) AIC               =   3.869321
+FPE            =   160.9113                     HQIC              =   4.632628
+Det(Sigma_ml)  =   3.932681                     SBIC              =   5.980421
+
+Equation           Parms      RMSE     R-sq      chi2     P>chi2
+----------------------------------------------------------------
+InflationMOMLe~y     16     .836601   0.6972   60.87231   0.0000
+ChangesInEffec~s     13     .156571   0.4080   21.19893   0.0475
+ChinaReserveCh~t     16     .425744   0.3626   17.31523   0.3004
+ChangeInInflat~C     10     9.64852   0.4539   21.44097   0.0108
+Monthtomonthch~y     16     23.6783   0.5517   30.85037   0.0092
+----------------------------------------------------------------
+
+ ( 1)  [ChangeInInflationExpectationMIC]L.ChinaReserveChangeInPercent = 0
+ ( 2)  [ChangeInInflationExpectationMIC]L2.ChinaReserveChangeInPercent = 0
+ ( 3)  [ChangesInEffectiveFedFundRates]L.ChinaReserveChangeInPercent = 0
+ ( 4)  [ChangesInEffectiveFedFundRates]L2.ChinaReserveChangeInPercent = 0
+ ( 5)  [ChangeInInflationExpectationMIC]L.ChangeInInflationExpectationMIC = 0
+ ( 6)  [ChangeInInflationExpectationMIC]L2.ChangeInInflationExpectationMIC = 0
+ ( 7)  [ChangeInInflationExpectationMIC]L3.ChinaReserveChangeInPercent = 0
+ ( 8)  [ChangesInEffectiveFedFundRates]L3.ChinaReserveChangeInPercent = 0
+ ( 9)  [ChangeInInflationExpectationMIC]L3.ChangeInInflationExpectationMIC = 0
+-------------------------------------------------------------------------------
+> ------------------
+                                |      Coef.   Std. Err.      z    P>|z|     [9
+> 5% Con                                                                       
+>       f. Interval]
+--------------------------------+----------------------------------------------
+> ------------------
+InflationMOMLessFoodEnergy      |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.6272708   .2233683    -2.81   0.005    -1.
+> 065065                                                                       
+>          -.1894771
+                            L2. |  -.3570261   .2639125    -1.35   0.176    -.8
+> 742852                                                                       
+>           .1602329
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   4.589527   1.278303     3.59   0.000     2.
+> 084099                                                                       
+>           7.094956
+                            L2. |  -3.500931   1.529985    -2.29   0.022    -6.
+> 499647                                                                       
+>          -.5022154
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   .6825955   .3079861     2.22   0.027     .0
+> 789539                                                                       
+>           1.286237
+                            L2. |  -.1873929   .3420576    -0.55   0.584    -.8
+> 578135                                                                       
+>           .4830278
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0338966   .0253304     1.34   0.181      -
+> .01575                                                                       
+>           .0835433
+                            L2. |   .0010311   .0331938     0.03   0.975    -.0
+> 640275                                                                       
+>           .0660896
+                                |
+     MonthtomonthchangeinEnergy |
+                            L1. |   .0074845   .0070014     1.07   0.285    -.0
+> 062379                                                                       
+>            .021207
+                            L2. |   .0086474   .0075005     1.15   0.249    -.0
+> 060534                                                                       
+>           .0233481
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |   -.114055   .2400758    -0.48   0.635     -.
+> 584595                                                                       
+>            .356485
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |  -.0083108   1.839368    -0.00   0.996    -3.
+> 613405                                                                       
+>           3.596783
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |   .2459244   .2799549     0.88   0.380    -.3
+> 027772                                                                       
+>           .7946259
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |   .0150603   .0276008     0.55   0.585    -.0
+> 390364                                                                       
+>            .069157
+                                |
+     MonthtomonthchangeinEnergy |
+                            L3. |  -.0042035   .0072675    -0.58   0.563    -.0
+> 184476                                                                       
+>           .0100406
+                                |
+                          _cons |   -.158969   .1777654    -0.89   0.371    -.5
+> 073828                                                                       
+>           .1894449
+--------------------------------+----------------------------------------------
+> ------------------
+ChangesInEffectiveFedFundRates  |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.0124294   .0389855    -0.32   0.750    -.0
+> 888396                                                                       
+>           .0639807
+                            L2. |   -.081113   .0451683    -1.80   0.073    -.1
+> 696412                                                                       
+>           .0074152
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   .5255627   .2320862     2.26   0.024     .0
+> 706822                                                                       
+>           .9804433
+                            L2. |  -.0109154   .2836189    -0.04   0.969    -.5
+> 667982                                                                       
+>           .5449674
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   1.75e-17   1.02e-17     1.72   0.085    -2.
+> 44e-18                                                                       
+>           3.75e-17
+                            L2. |   4.63e-18   1.44e-17     0.32   0.748    -2.
+> 36e-17                                                                       
+>           3.28e-17
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0073725    .004292     1.72   0.086    -.0
+> 010397                                                                       
+>           .0157847
+                            L2. |   .0020378    .005537     0.37   0.713    -.0
+> 088144                                                                       
+>           .0128901
+                                |
+     MonthtomonthchangeinEnergy |
+                            L1. |  -.0000112   .0012932    -0.01   0.993    -.0
+> 025458                                                                       
+>           .0025234
+                            L2. |   .0008226   .0013894     0.59   0.554    -.0
+> 019005                                                                       
+>           .0035458
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |   .0006827   .0429492     0.02   0.987    -.0
+> 834962                                                                       
+>           .0848617
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |   .4732967     .33845     1.40   0.162    -.1
+> 900531                                                                       
+>           1.136647
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |  -1.29e-17   6.12e-18    -2.11   0.035    -2.
+> 49e-17                                                                       
+>          -8.97e-19
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |   .0020477   .0046384     0.44   0.659    -.0
+> 070433                                                                       
+>           .0111387
+                                |
+     MonthtomonthchangeinEnergy |
+                            L3. |   .0010279   .0013501     0.76   0.446    -.0
+> 016183                                                                       
+>            .003674
+                                |
+                          _cons |  -.0290429   .0329316    -0.88   0.378    -.0
+> 935876                                                                       
+>           .0355019
+--------------------------------+----------------------------------------------
+> ------------------
+ChinaReserveChangeInPercent     |
+     InflationMOMLessFoodEnergy |
+                            L1. |  -.1654815   .1172154    -1.41   0.158    -.3
+> 952195                                                                       
+>           .0642565
+                            L2. |  -.0548973   .1394763    -0.39   0.694    -.3
+> 282657                                                                       
+>           .2184712
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -.2448214   .6593199    -0.37   0.710    -1.
+> 537065                                                                       
+>           1.047422
+                            L2. |   .2044058   .7814971     0.26   0.794      -
+> 1.3273                                                                       
+>           1.736112
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   .1653057   .1914224     0.86   0.388    -.2
+> 098753                                                                       
+>           .5404866
+                            L2. |   .3703024   .2125988     1.74   0.082    -.0
+> 463837                                                                       
+>           .7869884
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |   .0220789   .0132634     1.66   0.096    -.0
+> 039168                                                                       
+>           .0480746
+                            L2. |  -.0032738     .01749    -0.19   0.852    -.0
+> 375536                                                                       
+>           .0310059
+                                |
+     MonthtomonthchangeinEnergy |
+                            L1. |   .0011936   .0035792     0.33   0.739    -.0
+> 058215                                                                       
+>           .0082087
+                            L2. |    .000019   .0038287     0.00   0.996    -.0
+> 074851                                                                       
+>           .0075232
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |   .2000683   .1246423     1.61   0.108    -.0
+> 442261                                                                       
+>           .4443628
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |   .2701058   .9435066     0.29   0.775    -1.
+> 579133                                                                       
+>           2.119345
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |  -.2524631   .1740002    -1.45   0.147    -.5
+> 934971                                                                       
+>            .088571
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |  -.0010797   .0145004    -0.07   0.941    -.0
+> 294999                                                                       
+>           .0273405
+                                |
+     MonthtomonthchangeinEnergy |
+                            L3. |    .001352   .0037068     0.36   0.715    -.0
+> 059133                                                                       
+>           .0086173
+                                |
+                          _cons |   .0196168   .0909067     0.22   0.829     -.
+> 158557                                                                       
+>           .1977907
+--------------------------------+----------------------------------------------
+> ------------------
+ChangeInInflationExpectationMIC |
+     InflationMOMLessFoodEnergy |
+                            L1. |   -.380899   2.374805    -0.16   0.873    -5.
+> 035431                                                                       
+>           4.273633
+                            L2. |  -4.642799   2.691741    -1.72   0.085    -9.
+> 918515                                                                       
+>           .6329169
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |  -5.904523   13.93856    -0.42   0.672     -3
+> 3.2236                                                                       
+>           21.41455
+                            L2. |  -22.00429   17.02002    -1.29   0.196    -55
+> .36291                                                                       
+>           11.35434
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   5.52e-16   2.47e-15     0.22   0.823    -4.
+> 28e-15                                                                       
+>           5.38e-15
+                            L2. |  -2.23e-15   1.46e-15    -1.53   0.125    -5.
+> 09e-15                                                                       
+>           6.22e-16
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |  -6.02e-16   2.15e-16    -2.80   0.005    -1.
+> 02e-15                                                                       
+>          -1.80e-16
+                            L2. |   9.92e-17   2.31e-16     0.43   0.668    -3.
+> 54e-16                                                                       
+>           5.52e-16
+                                |
+     MonthtomonthchangeinEnergy |
+                            L1. |   .0136182   .0754736     0.18   0.857    -.1
+> 343074                                                                       
+>           .1615437
+                            L2. |   -.064819   .0809099    -0.80   0.423    -.2
+> 233995                                                                       
+>           .0937615
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |  -1.969772   2.583051    -0.76   0.446    -7.
+> 032458                                                                       
+>           3.092915
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |   4.671923   20.73746     0.23   0.822    -35
+> .97275                                                                       
+>            45.3166
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |  -8.75e-16   1.17e-15    -0.75   0.455    -3.
+> 17e-15                                                                       
+>           1.42e-15
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |  -2.06e-16   1.22e-16    -1.70   0.090    -4.
+> 44e-16                                                                       
+>           3.19e-17
+                                |
+     MonthtomonthchangeinEnergy |
+                            L3. |  -.0130875    .080055    -0.16   0.870    -.1
+> 699924                                                                       
+>           .1438174
+                                |
+                          _cons |   .2842019   2.026007     0.14   0.888    -3.
+> 686699                                                                       
+>           4.255103
+--------------------------------+----------------------------------------------
+> ------------------
+MonthtomonthchangeinEnergy      |
+     InflationMOMLessFoodEnergy |
+                            L1. |   2.107435     6.5267     0.32   0.747    -10
+> .68466                                                                       
+>           14.89953
+                            L2. |  -11.65699    7.76942    -1.50   0.134    -26
+> .88478                                                                       
+>            3.57079
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L1. |   30.18435   36.69579     0.82   0.411    -41
+> .73809                                                                       
+>           102.1068
+                            L2. |  -52.22167   43.48208    -1.20   0.230     -1
+> 37.445                                                                       
+>           33.00164
+                                |
+    ChinaReserveChangeInPercent |
+                            L1. |   11.19781   10.70862     1.05   0.296    -9.
+> 790688                                                                       
+>           32.18631
+                            L2. |   7.349031   11.89328     0.62   0.537    -15
+> .96136                                                                       
+>           30.65942
+                                |
+ChangeInInflationExpectationMIC |
+                            L1. |  -.2315241   .7416039    -0.31   0.755    -1.
+> 685041                                                                       
+>           1.221993
+                            L2. |   .0824332   .9779518     0.08   0.933    -1.
+> 834317                                                                       
+>           1.999184
+                                |
+     MonthtomonthchangeinEnergy |
+                            L1. |  -.3508547    .199205    -1.76   0.078    -.7
+> 412893                                                                       
+>             .03958
+                            L2. |  -.2163952   .2130889    -1.02   0.310    -.6
+> 340417                                                                       
+>           .2012513
+                                |
+     InflationMOMLessFoodEnergy |
+                            L3. |  -.7902319   6.938628    -0.11   0.909    -14
+> .38969                                                                       
+>           12.80923
+                                |
+ ChangesInEffectiveFedFundRates |
+                            L3. |   44.21351   52.49232     0.84   0.400    -58
+> .66954                                                                       
+>           147.0966
+                                |
+    ChinaReserveChangeInPercent |
+                            L3. |   1.185258   9.733977     0.12   0.903    -17
+> .89299                                                                       
+>            20.2635
+                                |
+ChangeInInflationExpectationMIC |
+                            L3. |    .058829   .8107807     0.07   0.942    -1.
+> 530272                                                                       
+>            1.64793
+                                |
+     MonthtomonthchangeinEnergy |
+                            L3. |  -.1025485   .2062624    -0.50   0.619    -.5
+> 068153                                                                       
+>           .3017183
+                                |
+                          _cons |  -5.209208   5.056865    -1.03   0.303    -15
+> .12048                                                                       
+>           4.702065
+-------------------------------------------------------------------------------
+> ------------------
+
+. 
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |   .3711759 +  .8724516i  |   .948126   |
+  |   .3711759 -  .8724516i  |   .948126   |
+  |  -.4838672 +  .5304207i  |   .717965   |
+  |  -.4838672 -  .5304207i  |   .717965   |
+  |   .6513658               |   .651366   |
+  |  -.6277257 + .05848374i  |   .630444   |
+  |  -.6277257 - .05848374i  |   .630444   |
+  |   .4686403               |    .46864   |
+  |  .03678538 +    .21927i  |   .222334   |
+  |  .03678538 -    .21927i  |   .222334   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. varlmar
+
+   Lagrange-multiplier test
+  +--------------------------------------+
+  | lag  |      chi2    df   Prob > chi2 |
+  |------+-------------------------------|
+  |   1  |  -29.9304    25     1.00000   |
+  |   2  |  -38.2452    25     1.00000   |
+  +--------------------------------------+
+   H0: no autocorrelation at lag order
+
+. vargranger
+
+   Granger causality Wald tests
+  +------------------------------------------------------------------+
+  |          Equation           Excluded |   chi2     df Prob > chi2 |
+  |--------------------------------------+---------------------------|
+  | InflationMOMLes~y  ChangesInEffect~s |  16.348     2    0.000    |
+  | InflationMOMLes~y  ChinaReserveCha~t |   4.968     2    0.083    |
+  | InflationMOMLes~y  ChangeInInflati~C |  3.7155     2    0.156    |
+  | InflationMOMLes~y  Monthtomonthcha~y |  1.9677     2    0.374    |
+  | InflationMOMLes~y                ALL |  38.075     8    0.000    |
+  |--------------------------------------+---------------------------|
+  | ChangesInEffect~s  InflationMOMLes~y |  3.5647     2    0.168    |
+  | ChangesInEffect~s  ChinaReserveCha~t |       .     0        .    |
+  | ChangesInEffect~s  ChangeInInflati~C |  4.3156     2    0.116    |
+  | ChangesInEffect~s  Monthtomonthcha~y |  .37795     2    0.828    |
+  | ChangesInEffect~s                ALL |  7.9383     6    0.243    |
+  |--------------------------------------+---------------------------|
+  | ChinaReserveCha~t  InflationMOMLes~y |  2.1047     2    0.349    |
+  | ChinaReserveCha~t  ChangesInEffect~s |  .18504     2    0.912    |
+  | ChinaReserveCha~t  ChangeInInflati~C |  7.3039     2    0.026    |
+  | ChinaReserveCha~t  Monthtomonthcha~y |  .11836     2    0.943    |
+  | ChinaReserveCha~t                ALL |  13.047     8    0.110    |
+  |--------------------------------------+---------------------------|
+  | ChangeInInflati~C  InflationMOMLes~y |  3.5945     2    0.166    |
+  | ChangeInInflati~C  ChangesInEffect~s |  1.9793     2    0.372    |
+  | ChangeInInflati~C  ChinaReserveCha~t |       .     0        .    |
+  | ChangeInInflati~C  Monthtomonthcha~y |  .83933     2    0.657    |
+  | ChangeInInflati~C                ALL |  21.001     6    0.002    |
+  |--------------------------------------+---------------------------|
+  | Monthtomonthcha~y  InflationMOMLes~y |  3.6981     2    0.157    |
+  | Monthtomonthcha~y  ChangesInEffect~s |  1.9028     2    0.386    |
+  | Monthtomonthcha~y  ChinaReserveCha~t |  1.6921     2    0.429    |
+  | Monthtomonthcha~y  ChangeInInflati~C |  .32106     2    0.852    |
+  | Monthtomonthcha~y                ALL |  17.496     8    0.025    |
+  +------------------------------------------------------------------+
+
+.  predict eee, resid
+(6 missing values generated)
+
+.   gen Leee=eee[_n-1]
+(6 missing values generated)
+
+.  regress eee Leee    if inrange(monthly_date,tm(2017m2), tm(2020m12))
+
+      Source |       SS           df       MS      Number of obs   =        40
+-------------+----------------------------------   F(1, 38)        =      0.04
+       Model |  .029813249         1  .029813249   Prob > F        =    0.8416
+    Residual |  27.9662626        38  .735954278   R-squared       =    0.0011
+-------------+----------------------------------   Adj R-squared   =   -0.0252
+       Total |  27.9960758        39  .717848097   Root MSE        =    .85788
+
+------------------------------------------------------------------------------
+         eee |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        Leee |  -.0315987   .1569966    -0.20   0.842    -.3494218    .2862243
+       _cons |   .0009656   .1357272     0.01   0.994    -.2737998    .2757309
+------------------------------------------------------------------------------
+
+. 
+. swilk eee     if inrange(monthly_date,tm(2017m2), tm(2020m12))
+
+                   Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob>z
+-------------+------------------------------------------------------
+         eee |         40    0.97558      0.965    -0.075    0.52981
+
+. sfrancia eee     if inrange(monthly_date,tm(2017m2), tm(2020m12))
+
+                  Shapiro-Francia W' test for normal data
+
+    Variable |       Obs       W'          V'        z       Prob>z
+-------------+-----------------------------------------------------
+         eee |        40    0.97045      1.295     0.482    0.31492
+
+. log off
+      name:  <unnamed>
+       log:  /Users/nicolaszhang/Downloads/Stata Rec 6/VARandGrangerChina.smcl
+  log type:  smcl
+ paused on:  12 Nov 2020, 18:41:56
+-------------------------------------------------------------------------------
